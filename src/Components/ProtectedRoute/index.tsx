@@ -13,19 +13,3 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = observer(({...rest}) => {
 });
 
 export default ProtectedRoute;
-
-// import Cookie from 'js-cookie'
-// import {FC} from 'react'
-// import {Redirect, Route, RouteProps} from 'react-router-dom'
-
-// type ProtectedRouteProps = RouteProps
-
-// const ProtectedRoute: FC<ProtectedRouteProps> = ({...rest}) => {
-//   const token = Cookie.get('jwt_token')
-//   if (token === undefined) {
-//     return <Redirect to="/login" />
-//   }
-//   return <Route {...rest} />
-// }
-
-// export default ProtectedRoute

@@ -1,7 +1,6 @@
 .nav-header {
   display: flex;
   justify-content: center;
-
   background-color: #272727;
   color: white;
 }
@@ -13,7 +12,7 @@
   }
 }
 
-.nav-content {
+.nav-content{
   display: flex;
   align-items: center;
   justify-content: space-between;

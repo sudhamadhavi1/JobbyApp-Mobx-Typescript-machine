@@ -10,7 +10,6 @@ const Header = observer(() => {
   const history = useHistory();
   const onClickLogout = (): void => {
     Cookies.remove('jwt_token');
-    // const {history} = props
     history.replace('/login');
   };
 
@@ -27,7 +26,6 @@ const Header = observer(() => {
               />
             </Link>
           </li>
-
           <li>
             <Link to="/" className="nav-link">
               Home

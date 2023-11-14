@@ -84,6 +84,8 @@ const Jobs = observer(() => {
     setApiStatus(apiStatusConstants.inprogress);
 
     const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${stringResult}&minimum_package=${selectedSalaryRange}&search=${searchInput}`;
+    // const apiUrl = `https://apis.ccbp.in/jobs?employment_type=""&minimum_package=""&search=""`;
+    console.log(apiUrl);
 
     const jwtToken = Cookies.get('jwt_token');
 

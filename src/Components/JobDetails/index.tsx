@@ -104,7 +104,7 @@ const JobDetails: React.FunctionComponent<JobDetailsProps> = observer(props => {
     getJobDetails();
   }, []);
 
-  const renderFailureView = (): JSX.Element => (
+  const failureView = (): JSX.Element => (
     <div>
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
@@ -118,13 +118,13 @@ const JobDetails: React.FunctionComponent<JobDetailsProps> = observer(props => {
     </div>
   );
 
-  const renderLoadingView = (): JSX.Element => (
+  const loadingView = (): JSX.Element => (
     <div className="loader-container" data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   );
 
-  const renderSuccessView = (): JSX.Element => {
+  const successView = (): JSX.Element => {
     const {
       companyLogoUrl,
       employmentType,
@@ -218,12 +218,12 @@ const JobDetails: React.FunctionComponent<JobDetailsProps> = observer(props => {
     console.log(apiStatus);
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return renderSuccessView();
+        return successView();
 
       case apiStatusConstants.failure:
-        return renderFailureView();
+        return failureView();
       case apiStatusConstants.inprogress:
-        return renderLoadingView();
+        return loadingView();
       default:
         return null;
     }
