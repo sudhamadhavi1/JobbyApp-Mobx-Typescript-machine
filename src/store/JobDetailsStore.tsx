@@ -1,8 +1,12 @@
 import {action, makeObservable, observable} from 'mobx';
-import {JobDataType, SimilarJobData, SkillSetType} from '../types/Job.ts';
+import {
+  JobDetailsDataType,
+  SimilarJobData,
+  SkillSetType,
+} from '../types/Job.ts';
 
 class JobDetailsStore {
-  jobData: JobDataType = {
+  jobData: JobDetailsDataType = {
     companyLogoUrl: '',
     employmentType: '',
     jobDescription: '',
@@ -31,7 +35,7 @@ class JobDetailsStore {
     });
   }
 
-  setJobData(jobData: JobDataType) {
+  setJobData(jobData: JobDetailsDataType) {
     console.log('Setting job data:', jobData);
     this.jobData = jobData;
   }

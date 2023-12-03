@@ -19,7 +19,7 @@ interface JobItemProps {
   };
 }
 
-const JobItem: React.FC<JobItemProps> = observer(({jobItemDetails}) => {
+const JobItem = ({jobItemDetails}: JobItemProps) => {
   const {
     companyLogoUrl,
     employmentType,
@@ -69,6 +69,6 @@ const JobItem: React.FC<JobItemProps> = observer(({jobItemDetails}) => {
       </li>
     </Link>
   );
-});
+};
 
-export default JobItem;
+export default observer(JobItem);

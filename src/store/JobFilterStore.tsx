@@ -27,7 +27,7 @@ class JobListStore {
       setTempSearchInput: action,
       setFilteredJobsList: action,
       setStringResult: action,
-      setTempCheckedEmployeeList: action,
+      setCheckedEmployementTypeList: action,
     });
   }
 
@@ -51,7 +51,7 @@ class JobListStore {
     this.stringResult = value;
   }
 
-  setTempCheckedEmployeeList(value: string[]) {
+  setCheckedEmployementTypeList(value: string[]) {
     this.tempCheckedEmployeeList = value;
   }
 }

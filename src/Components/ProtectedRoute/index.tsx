@@ -4,12 +4,12 @@ import {Redirect, Route, RouteProps} from 'react-router-dom';
 
 interface ProtectedRouteProps extends RouteProps {}
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = observer(({...rest}) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({...rest}) => {
   const token = Cookie.get('jwt_token');
   if (token === undefined) {
     return <Redirect to="/login" />;
   }
   return <Route {...rest} />;
-});
+};
 
-export default ProtectedRoute;
+export default observer(ProtectedRoute);

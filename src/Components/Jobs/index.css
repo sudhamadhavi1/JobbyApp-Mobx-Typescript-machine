@@ -2,10 +2,13 @@
   list-style-type: none;
 }
 
+
+
 .job-container {
   display: flex;
   background-color: black;
   color: #f8fafc;
+  height:100%;  
 }
 
 .heading-filter {

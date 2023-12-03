@@ -17,7 +17,7 @@ const onFormSubmitAPI = async userDetails => {
 
 const loginMachine = Machine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QBsD2UCWA7AtgQwGMALbMAOi1QBcAZdGCASSwGUq8qwBiVLAMVQAnHCwCuAIxwYqAUQBuYLFQDaABgC6iUAAdUsaRl5aQAD0QBmVarIAOVQHYAjACYArK+d2bAFgA0IAE8Lc2cyAE5nMLDze1cANmdHVW9HAF9U-zRMXEISLHJeAWExSWkuCF5ybDlUAGtyLOw1TSQQXX0qQyxjMwR7c0cyextHAdUQsO8I-yCERzibMm9XG3Nvb1VHEZcbG3TM9Gx8YlIyQqERCSkqLjBBQSEybWQOADMLskasZuN2gyNWr13PYyM5zHEwq5VK4whCRjYZogALSOVxkFxTbxxBaqCEubH7EBfY55cjvYpXaR8PAYZCiQTcc4U0qyBRKH6tP6dAGgXpgtHOSJbcxhGzYxxbZyIhDOKygqGbdYKrGw9IZECUCBwYzE3KkX56f7dQHIuLSlGqUJCuKoqwxOL9VyE3UnfIUah0KAMZhsDhgA0dLo9RDLMiuFIO2VJbzbMLS5z9WwuVxbGxhaEhOLOw45V0FfgXErXANG4MILGLRI2ewRG2xdb2aWOGvheYOhb2B32DbmbPZEmncmXFliAgEODwTmG7nG3mIaKhOLmcOTavQ2GueOWshWKyObzLsL7uLuPtHPVuodFqk0ukMkszsveKWBRAuQbh+axTarZfLtWpEAA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QBsD2UCWA7AtgQwGMALbMAOi1QBcAZdGCASSwGUq8qwBiVLAMVQAnHCwCuAIxwYqAUQBuYLFQDaABgC6iUAAdUsaRl5aQAD0QBmVarIAOVQHYAjACYArK+d2bAFgA0IAE8Lc2cyAE5nMLDze1cANmdHVW9HAF9U-zRMXEISLHJeAWExSWkuCF5ybDlUAGtyLOw1TSQQXX0qQyxjMwR7c0cyextHAdUQsO8I-yCERzibMm9XG3Nvb1VHEZcbG3TM9Gx8YlIyQqERCSkqLjBBQSEybWQOADMLskasZuN2gyNWr13PYyM5zHEwq5VK4whCRjYZogALSOVxkFxTbxxBaqCEubH7EBfY55cjvYpXaR8PAYZCiQTcc4U0qyBRKH6tP6dAGgIFkKF2KLLXHY5xxVyIhDOMH84a41RheyTRxC9IZECUCBwYzE3KkX56f7dQHI7yhKYqqyuKbmW39CWBZFJUKReaoxzeGwLOLLQm6k75CjUOhQBjMNgcMAGjpdHqIZb8lJxezOTbJbZhSXOfq2FyuLY2MLQkJxP2HHIBgr8C4la7Ro1xhBYxaJGxKsWOWLreySzthcLzZMLezJ+wbcxl7Ik07ky4ssQEAhweCcw3c428xDRUJxczWyZt6Gwh2zVOhKxWD17sIe8WuSdHPWB2e1qk0ukM+vrxtm3uJRPzLEmyrHue5qqkQA */
     id: 'loginmachine',
     initial: 'notLoggedInState',
     context: {
@@ -61,7 +61,7 @@ const loginMachine = Machine(
       formSubmitFailure: {
         on: {
           onFormSubmitEvent: {
-            target: 'onFormSubmit',
+            target: 'notLoggedInState',
           },
         },
       },
@@ -87,7 +87,7 @@ const loginMachine = Machine(
       })),
     },
     services: {
-      onFormSubmit: (context, _) => {
+      onFormSubmit: context => {
         const requestObject = {
           username: context.username,
           password: context.password,

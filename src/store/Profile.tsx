@@ -1,13 +1,8 @@
 import {action, makeObservable, observable} from 'mobx';
-
-interface ProfileDetails {
-  name: string;
-  profileImageUrl: string;
-  shortBio: string;
-}
+import {ProfileType} from '../types/profile.ts';
 
 class Profile {
-  profileDetails: ProfileDetails = {
+  profileDetails: ProfileType = {
     name: '',
     profileImageUrl: '',
     shortBio: '',
@@ -20,7 +15,7 @@ class Profile {
     });
   }
 
-  setProfileDetails(profileDetails: ProfileDetails) {
+  setProfileDetails(profileDetails: ProfileType) {
     this.profileDetails = profileDetails;
   }
 }

@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-filename-extension */
 import {observer} from 'mobx-react';
-import {Link, useHistory, withRouter} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 import Cookies from 'js-cookie';
 
 import './index.css';
 
-const Header = observer(() => {
+const Header = () => {
   const history = useHistory();
   const onClickLogout = (): void => {
     Cookies.remove('jwt_token');
@@ -14,7 +14,7 @@ const Header = observer(() => {
   };
 
   return (
-    <nav className="nav-header">
+    <header className="nav-header">
       <div className="nav-content">
         <ul className="nav-menu">
           <li>
@@ -45,7 +45,7 @@ const Header = observer(() => {
           Logout
         </button>
       </div>
-    </nav>
+    </header>
   );
-});
-export default withRouter(Header);
+};
+export default observer(Header);

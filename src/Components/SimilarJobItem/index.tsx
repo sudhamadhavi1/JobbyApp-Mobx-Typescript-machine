@@ -1,5 +1,4 @@
 import {observer} from 'mobx-react';
-import {FC} from 'react';
 import {AiFillStar} from 'react-icons/ai';
 import {IoLocationSharp} from 'react-icons/io5';
 import {MdWork} from 'react-icons/md';
@@ -11,12 +10,12 @@ interface SimilarJobItemProps {
     employmentType: string;
     jobDescription: string;
     location: string;
-    rating: string;
+    rating: number;
     title: string;
   };
 }
 
-const SimilarJobItem: FC<SimilarJobItemProps> = observer(props => {
+const SimilarJobItem = (props: SimilarJobItemProps) => {
   const {similarJobDetails} = props;
   const {
     companyLogoUrl,
@@ -64,6 +63,6 @@ const SimilarJobItem: FC<SimilarJobItemProps> = observer(props => {
       </div>
     </li>
   );
-});
+};
 
-export default SimilarJobItem;
+export default observer(SimilarJobItem);

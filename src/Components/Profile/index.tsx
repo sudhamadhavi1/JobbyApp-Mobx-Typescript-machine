@@ -1,13 +1,12 @@
 import {observer} from 'mobx-react';
-import {FC, useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
 import Cookies from 'js-cookie';
 import Loader from 'react-loader-spinner';
 import profileStore from '../../store/Profile.tsx';
+import {ProfileType} from '../../types/profile.ts';
 
 import './index.css';
-
-interface ProfileProps {}
 
 const apiStatusConstantsProfile = {
   initial: 'INITIAL',
@@ -16,12 +15,12 @@ const apiStatusConstantsProfile = {
   inProgress: 'IN_PROGRESS',
 };
 
-const Profile: FC<ProfileProps> = observer(() => {
+const Profile = () => {
   const [apiStatusProfile, setApisStatusProfile] = useState<string>(
     apiStatusConstantsProfile.initial,
   );
 
-  const getProfile = useCallback(async () => {
+  const getProfile = async (): Promise<void> => {
     setApisStatusProfile(apiStatusConstantsProfile.inProgress);
     const jwtToken = Cookies.get('jwt_token');
 
@@ -38,7 +37,7 @@ const Profile: FC<ProfileProps> = observer(() => {
       const fetchedProfile = await response.json();
 
       const profile = fetchedProfile.profile_details;
-      const updatedData = {
+      const updatedData: ProfileType = {
         name: profile.name,
         profileImageUrl: profile.profile_image_url,
         shortBio: profile.short_bio,
@@ -49,11 +48,11 @@ const Profile: FC<ProfileProps> = observer(() => {
     } else {
       setApisStatusProfile(apiStatusConstantsProfile.failure);
     }
-  }, []);
+  };
 
   useEffect(() => {
     getProfile();
-  }, [getProfile]);
+  }, []);
 
   const renderSuccessProfileView = () => {
     const {name, profileImageUrl, shortBio} = profileStore.profileDetails;
@@ -90,6 +89,6 @@ const Profile: FC<ProfileProps> = observer(() => {
     default:
       return null;
   }
-});
+};
 
-export default Profile;
+export default observer(Profile);

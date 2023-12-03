@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import Header from '../Header/index.tsx';
 import './index.css';
 
-const Home = observer(() => (
+const Home = () => (
   // eslint-disable-next-line react/jsx-filename-extension
   <>
     <Header />
@@ -22,6 +22,6 @@ const Home = observer(() => (
       </div>
     </div>
   </>
-));
+);
 
-export default Home;
+export default observer(Home);

@@ -5,69 +5,24 @@ import {observer} from 'mobx-react';
 import {useEffect, useState} from 'react';
 import {BsSearch} from 'react-icons/bs';
 import Loader from 'react-loader-spinner';
-import jobListStore from '../../store/JobListStore.tsx';
-import {EachJob, Job} from '../../types/Job.ts';
+import {
+  apiStatusConstants,
+  employmentTypesList,
+  salaryRangesList,
+} from '../../constants/constants.ts';
+import jobListStore from '../../store/JobFilterStore.tsx';
+import {
+  BackendEachJobType,
+  EmploymentType,
+  Job,
+  SalaryRangeType,
+} from '../../types/Job.ts';
 import Header from '../Header/index.tsx';
 import JobItem from '../JobItem/index.tsx';
 import Profile from '../Profile/index.tsx';
 import './index.css';
 
-interface EmploymentType {
-  label: string;
-  employmentTypeId: string;
-}
-
-interface SalaryRange {
-  salaryRangeId: string;
-  label: string;
-}
-
-const apiStatusConstants = {
-  initial: 'initial',
-  inprogress: 'inprogress',
-  failure: 'failure',
-  success: 'success',
-};
-
-const employmentTypesList: EmploymentType[] = [
-  {
-    label: 'Full Time',
-    employmentTypeId: 'FULLTIME',
-  },
-  {
-    label: 'Part Time',
-    employmentTypeId: 'PARTTIME',
-  },
-  {
-    label: 'Freelance',
-    employmentTypeId: 'FREELANCE',
-  },
-  {
-    label: 'Internship',
-    employmentTypeId: 'INTERNSHIP',
-  },
-];
-
-const salaryRangesList: SalaryRange[] = [
-  {
-    salaryRangeId: '1000000',
-    label: '10 LPA and above',
-  },
-  {
-    salaryRangeId: '2000000',
-    label: '20 LPA and above',
-  },
-  {
-    salaryRangeId: '3000000',
-    label: '30 LPA and above',
-  },
-  {
-    salaryRangeId: '4000000',
-    label: '40 LPA and above',
-  },
-];
-
-const Jobs = observer(() => {
+const Jobs = () => {
   const {
     searchInput,
     selectedSalaryRange,
@@ -85,7 +40,7 @@ const Jobs = observer(() => {
 
     const apiUrl = `https://apis.ccbp.in/jobs?employment_type=${stringResult}&minimum_package=${selectedSalaryRange}&search=${searchInput}`;
     // const apiUrl = `https://apis.ccbp.in/jobs?employment_type=""&minimum_package=""&search=""`;
-    console.log(apiUrl);
+    // console.log(apiUrl);
 
     const jwtToken = Cookies.get('jwt_token');
 
@@ -98,29 +53,31 @@ const Jobs = observer(() => {
     const response = await fetch(apiUrl, options);
     if (response.ok === true) {
       const data = await response.json();
-      const formattedData = data.jobs.map((each: EachJob) => ({
-        companyLogoUrl: each.company_logo_url,
-        employmentType: each.employment_type,
-        id: each.id,
-        jobDescription: each.job_description,
-        location: each.location,
-        packagePerAnnum: each.package_per_annum,
-        rating: each.rating,
-        title: each.title,
-      }));
+      const formattedData: Job[] = data.jobs.map(
+        (each: BackendEachJobType) => ({
+          companyLogoUrl: each.company_logo_url,
+          employmentType: each.employment_type,
+          id: each.id,
+          jobDescription: each.job_description,
+          location: each.location,
+          packagePerAnnum: each.package_per_annum,
+          rating: each.rating,
+          title: each.title,
+        }),
+      );
       jobListStore.setFilteredJobsList(formattedData);
-
       setApiStatus(apiStatusConstants.success);
     } else {
       setApiStatus(apiStatusConstants.failure);
     }
   };
+  // Writing getJobsList seperately as it need to be called when we clcik retry button
 
   useEffect(() => {
     getJobsList();
   }, [stringResult, selectedSalaryRange, searchInput]);
 
-  const renderFailureView = (): JSX.Element => (
+  const renderFailureView = () => (
     <div>
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
@@ -134,13 +91,13 @@ const Jobs = observer(() => {
     </div>
   );
 
-  const renderLoadingView = (): JSX.Element => (
+  const renderLoadingView = () => (
     <div className="loader-container" data-testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   );
 
-  const renderSuccessView = (): JSX.Element => {
+  const renderSuccessView = () => {
     if (filteredJobsList.length <= 0) {
       return (
         <div>
@@ -164,7 +121,7 @@ const Jobs = observer(() => {
       </div>
     );
   };
-  const outputView = (): JSX.Element | null => {
+  const outputView = () => {
     switch (apiStatus) {
       case apiStatusConstants.success:
         return renderSuccessView();
@@ -188,20 +145,23 @@ const Jobs = observer(() => {
   const onClickCheckbox = (
     event: React.ChangeEvent<HTMLInputElement>,
   ): void => {
-    const tempCheckStatus = event.target.checked;
-    const tempValue = event.target.value;
-    let updateCheckList: string[];
-    if (tempCheckStatus) {
-      updateCheckList = [...tempCheckedEmployeeList, tempValue];
+    const itemCheckedStatus = event.target.checked;
+    const checkedItemValue = event.target.value;
+    console.log(itemCheckedStatus);
+    console.log(checkedItemValue);
+    let checkedItemList: string[];
+    if (itemCheckedStatus) {
+      checkedItemList = [...tempCheckedEmployeeList, checkedItemValue];
     } else {
-      updateCheckList = tempCheckedEmployeeList.filter(
-        each => each !== tempValue,
+      checkedItemList = tempCheckedEmployeeList.filter(
+        each => each !== checkedItemValue,
       );
     }
+    console.log(checkedItemList);
 
-    const tempCheckString = updateCheckList.join();
-    jobListStore.setTempCheckedEmployeeList(updateCheckList);
-    jobListStore.setStringResult(tempCheckString);
+    const checkedItemsString = checkedItemList.join();
+    jobListStore.setCheckedEmployementTypeList(checkedItemList);
+    jobListStore.setStringResult(checkedItemsString);
   };
 
   const onChangeRadio = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -240,7 +200,7 @@ const Jobs = observer(() => {
             <hr className="line" />
             <h1 className="heading-filter">Salary Range</h1>
             <ul className="filter-container">
-              {salaryRangesList.map((each: SalaryRange) => (
+              {salaryRangesList.map((each: SalaryRangeType) => (
                 <li key={each.salaryRangeId}>
                   <label>
                     <input
@@ -282,6 +242,6 @@ const Jobs = observer(() => {
       </div>
     </div>
   );
-});
+};
 
-export default Jobs;
+export default observer(Jobs);

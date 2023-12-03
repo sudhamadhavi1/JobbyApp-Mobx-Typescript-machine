@@ -12,8 +12,8 @@ import {MdWork} from 'react-icons/md';
 import {IoLocationSharp} from 'react-icons/io5';
 import jobDetailsStore from '../../store/JobDetailsStore.tsx';
 import {
-  InitialSimilarJobData,
-  InitialSkillSetType,
+  BackendSimilarJobDataType,
+  BackendSkillSetType,
   SimilarJobData,
 } from '../../types/Job.ts';
 import Header from '../Header/index.tsx';
@@ -35,7 +35,7 @@ interface JobDetailsProps {
   };
 }
 
-const JobDetails: React.FunctionComponent<JobDetailsProps> = observer(props => {
+const JobDetails = (props: JobDetailsProps) => {
   const {jobData, skillsSet, similarJob} = jobDetailsStore;
   const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial);
   // const [jobData, setJobData] = useState({});
@@ -72,7 +72,7 @@ const JobDetails: React.FunctionComponent<JobDetailsProps> = observer(props => {
         lifeAtCompanyImageUrl: data.job_details.life_at_company.image_url,
       };
       const skillsUpdatedData = data.job_details.skills.map(
-        (each: InitialSkillSetType) => ({
+        (each: BackendSkillSetType) => ({
           imageUrl: each.image_url,
           name: each.name,
         }),
@@ -82,7 +82,7 @@ const JobDetails: React.FunctionComponent<JobDetailsProps> = observer(props => {
       // console.log(skillsUpdatedData);
 
       const similarjobData = data.similar_jobs.map(
-        (each: InitialSimilarJobData) => ({
+        (each: BackendSimilarJobDataType) => ({
           companyLogoUrl: each.company_logo_url,
           employmentType: each.employment_type,
           id: each.id,
@@ -235,6 +235,6 @@ const JobDetails: React.FunctionComponent<JobDetailsProps> = observer(props => {
       <div className="bg-container">{outputView()}</div>
     </div>
   );
-});
+};
 
-export default JobDetails;
+export default observer(JobDetails);

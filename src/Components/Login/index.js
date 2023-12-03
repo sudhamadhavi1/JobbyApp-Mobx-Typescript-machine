@@ -58,7 +58,7 @@ const Login = () => {
   );
 
   const jwtToken = Cookies.get('jwt_token');
-
+  // Once the user has logged in, if he wants to come to login page - it is redirectd to home page.
   if (jwtToken !== undefined) {
     return <Redirect to="/" />;
   }
